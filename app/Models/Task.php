@@ -37,11 +37,4 @@ class Task extends Model
         });
     }
 
-
-
-
-
-
-
-
 }
