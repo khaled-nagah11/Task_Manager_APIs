@@ -13,7 +13,12 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function __construct()
+    {
+        $this->authorizeResource(Project::class, 'project');
+    }
+
+    public function index(Request $request)
     {
         $projects = QueryBuilder::for(Project::class)
             ->allowedIncludes('tasks')
@@ -22,7 +27,9 @@ class ProjectController extends Controller
     }
     public function show(Request $request , Project $project)
     {
-        return (new ProjectResource($project))->load('tasks');
+        return (new ProjectResource($project))
+            ->load('tasks')
+            ->load('members');
     }
 
     public function store(StoreProjectRequest $request)

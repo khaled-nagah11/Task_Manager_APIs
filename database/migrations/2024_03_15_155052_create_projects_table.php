@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->foreignId('project_id')->nullable()->constrained('projects');
+        Schema::create('projects', function (Blueprint $table) {
+            $table->id();
+            $table->string("title");
+            $table->foreignId("creator_id")->constrained("users")->cascadeOnDelete();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('project_id');
-        });
+        Schema::dropIfExists('projects');
     }
 };
